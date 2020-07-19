@@ -37,7 +37,7 @@ const SoundDetail = ({ navigation, route }) => {
           <LogoHeader />
         </View>
       </TouchableWithoutFeedback>
-      <SoundItem name={params.text} picture={params.thumbnail} />
+      <SoundItem sound={{...params}} />
       <IconsContainer>
         <Icon name="whatsapp" size={ICON_SIZE} />
         <Icon name="slack" size={ICON_SIZE} />

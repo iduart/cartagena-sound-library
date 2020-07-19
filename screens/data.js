@@ -7,20 +7,20 @@ export default [
   },
   {
     "text": "Ay Dios mio!",
-    "code": "ay-dios-mio-esto-que-es",
-    "file": "ay-dios-mio-que-es-esto.mp3",
+    "code": "ay_dios_mio_esto_que_es",
+    "file": "ay_dios_mio_esto_que_es.mp3",
     "thumbnail": "fosforro"
   },
   {
     "text": "Puro pelao marica",
-    "code": "puro-pelao-marica",
-    "file": "puro-pelao-marica.mp3",
+    "code": "puro_pelao_marica",
+    "file": "puro_pelao_marica.mp3",
     "thumbnail": "pibe"
   },
   {
     "text": "Cristo mete tu mano",
-    "code": "cristo-mete-tu-mano",
-    "file": "cristo-mete-tu-mano.mp3",
+    "code": "cristo_mete_tu_mano",
+    "file": "cristo_mete_tu_mano.mp3",
     "thumbnail": "fosforro"
   },
   {
@@ -30,27 +30,27 @@ export default [
     "thumbnail": "chiki"
   },
   {
-    "text": "Jopo-que-pea",
-    "code": "jopo-que-pea",
-    "file": "jopo-que-pea.mp3",
+    "text": "Jopo que pea",
+    "code": "jopo_que_pea",
+    "file": "jopo_que_pea.mp3",
     "thumbnail": "lucho"
   },
   {
     "text": "El Bochorno",
-    "code": "el-bochorno",
-    "file": "el-bochorno.mp3",
+    "code": "el_bochorno",
+    "file": "el_bochorno.mp3",
     "thumbnail": "fosforro"
   },
   {
     "text": "Se partió la galleta",
-    "code": "se-partio-la-galleta",
-    "file": "se-partio-la-galleta.mp3",
+    "code": "se_partio_la_galleta",
+    "file": "se_partio_la_galleta.mp3",
     "thumbnail": "charlie"
   },
   {
     "text": "Ya basta, erda",
-    "code": "ya-basta-erda",
-    "file": "yabasta.mp3",
+    "code": "ya_basta_erda",
+    "file": "ya_basta_erda.mp3",
     "thumbnail": "null"
   }
 ];

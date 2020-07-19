@@ -1,9 +1,9 @@
 export default {
-  uso: require('../images/uso.jpeg'),
-  fosforro: require('../images/fosforro.jpeg'),
-  pibe: require('../images/pibe.jpeg'),
-  chiki: require('../images/chiki.jpeg'),
-  charlie: require('../images/charlie.jpg'),
-  lucho: require('../images/lucho.jpeg'),
-  null: require('../images/null.png'),
+  uso: require('./uso.jpeg'),
+  fosforro: require('./fosforro.jpeg'),
+  pibe: require('./pibe.jpeg'),
+  chiki: require('./chiki.jpeg'),
+  charlie: require('./charlie.jpg'),
+  lucho: require('./lucho.jpeg'),
+  null: require('./null.png'),
 }

@@ -11,6 +11,7 @@ const Container = styled(SafeAreaView)`
 `;
 
 const Home = ({ navigation }) => {
+
   const handleNamePress = (item) => () => {
     navigation.navigate('soundDetail', item);
   }
@@ -20,7 +21,7 @@ const Home = ({ navigation }) => {
       <FlatList
         data={data}
         renderItem={
-          ({ item }) => <SoundItem picture={item.thumbnail} name={item.text} onNamePress={handleNamePress(item)} />
+          ({ item }) => <SoundItem sound={item} handleNamePress={handleNamePress(item)} />
         }
         keyExtractor={item => item.code}
         showsVerticalScrollIndicator={false}
