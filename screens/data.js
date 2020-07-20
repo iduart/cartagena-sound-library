@@ -1,5 +1,17 @@
 export default [
   {
+    "text": "Que se imajije",
+    "code": "imajije",
+    "file": "imajije.mp3",
+    "thumbnail": "imajije"
+  },
+  {
+    "text": "Y que esperabas que sucediera?",
+    "code": "que_esperabas",
+    "file": "que_esperabas.mp3",
+    "thumbnail": "turner"
+  },
+  {
     "text": "señora callese",
     "code": "callese",
     "file": "callese.mp3",
@@ -42,6 +54,12 @@ export default [
     "thumbnail": "fosforro"
   },
   {
+    "text": "No sé Ernesto",
+    "code": "no_se_ernesto",
+    "file": "no_se_ernesto.mp3",
+    "thumbnail": "diomedes"
+  },
+  {
     "text": "Se partió la galleta",
     "code": "se_partio_la_galleta",
     "file": "se_partio_la_galleta.mp3",
@@ -52,5 +70,11 @@ export default [
     "code": "ya_basta_erda",
     "file": "ya_basta_erda.mp3",
     "thumbnail": "null"
-  }
+  },
+  {
+    "text": "No hablemos de eso",
+    "code": "no_hablemos_de_eso",
+    "file": "no_hablemos_de_eso.mp3",
+    "thumbnail": "diomedes"
+  },
 ];

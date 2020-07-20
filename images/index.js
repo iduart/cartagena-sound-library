@@ -6,4 +6,7 @@ export default {
   charlie: require('./charlie.jpg'),
   lucho: require('./lucho.jpeg'),
   null: require('./null.png'),
+  imajije: require('./imajije.jpg'),
+  turner: require('./turner.jpg'),
+  diomedes: require('./diomedes.jpg'),
 }

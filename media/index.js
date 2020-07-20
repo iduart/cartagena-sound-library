@@ -8,4 +8,8 @@ export default {
   el_bochorno: require('./el_bochorno.mp3'),
   se_partio_la_galleta: require('./se_partio_la_galleta.mp3'),
   ya_basta_erda: require('./ya_basta_erda.mp3'),
+  imajije: require('./imajije.mp3'),
+  que_esperabas: require('./que_esperabas.mp3'),
+  no_hablemos_de_eso: require('./no_hablemos_de_eso.mp3'),
+  no_se_ernesto: require('./no_se_ernesto.mp3'),
 }
