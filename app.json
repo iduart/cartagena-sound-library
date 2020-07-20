@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "project",
-    "slug": "project",
+    "name": "Cartagena Sound Library",
+    "slug": "cartagena-sound-library",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,7 +17,13 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.iduart.cartagenasoundlibrary",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.iduart.cartagenasoundlibrary",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
