@@ -5,6 +5,7 @@ import { FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import SoundItem from '../components/SoundItem';
 import MainScreenHeader from '../components/MainScreenHeader';
+import SearchBar from '../components/SearchBar';
 import data from './data';
 
 const Container = styled(LinearGradient).attrs({
@@ -21,6 +22,8 @@ const Home = ({ navigation }) => {
 
   return (
     <Container>
+      <MainScreenHeader />
+      <SearchBar />
       <FlatList
         data={data}
         // renderItem={
@@ -28,7 +31,6 @@ const Home = ({ navigation }) => {
         // }
         keyExtractor={item => item.code}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={MainScreenHeader}
       />
     </Container>
   )
