@@ -23,7 +23,7 @@ const StyledLogo = styled(Logo)`
 const CloudsBackground = styled(Clouds)`
   position: absolute;
   align-self: center;
-  margin-top: 20px;
+  margin-top: 30px;
   height: 100%;
   width: 100%;
   flex: 1;
