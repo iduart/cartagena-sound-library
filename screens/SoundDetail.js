@@ -5,7 +5,7 @@ import { Asset } from 'expo-asset';
 import { TouchableWithoutFeedback, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Entypo';
-import LogoHeader from '../components/LogoHeader';
+import MainScreenHeader from '../components/MainScreenHeader';
 import SoundItem from '../components/SoundItem';
 import Sounds from '../media';
 
@@ -63,7 +63,7 @@ const SoundDetail = ({ navigation, route }) => {
     <SafeAreaContainer>
       <TouchableWithoutFeedback onPress={goHome}>
         <View>
-          <LogoHeader />
+          <MainScreenHeader />
         </View>
       </TouchableWithoutFeedback>
       <SoundItem sound={{ ...params }} />

@@ -3,11 +3,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { FlatList } from 'react-native';
 import SoundItem from '../components/SoundItem';
-import LogoHeader from '../components/LogoHeader';
+import MainScreenHeader from '../components/MainScreenHeader';
+import Logo from '../components/Logo';
 import data from './data';
 
 const Container = styled(SafeAreaView)`
-  background-color: #FFFFFF;
+  background-color: #FFE1A6;
+  flex: 1;
 `;
 
 const Home = ({ navigation }) => {
@@ -18,15 +20,16 @@ const Home = ({ navigation }) => {
 
   return (
     <Container>
-      <FlatList
+      <MainScreenHeader />
+      {/* <FlatList
         data={data}
         renderItem={
           ({ item }) => <SoundItem sound={item} handleNamePress={handleNamePress(item)} />
         }
         keyExtractor={item => item.code}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={LogoHeader}
-      />
+        ListHeaderComponent={MainScreenHeader}
+      /> */}
     </Container>
   )
 }
