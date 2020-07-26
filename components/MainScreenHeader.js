@@ -1,23 +1,29 @@
 import React from 'react';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 import Logo from './Logo';
 import HamburguerIcon from './Icons/HamburguerIcon';
 import Clouds from './Clouds';
 
 const ScreenContainer = styled.View`
-  padding: 40px 10px;
+  padding: 40px 10px 10px 10px;
 `;
 
-const Hamburger = styled(HamburguerIcon)`
-  position: relative;
-  top: 10px;
-  left: 10px;
+const HamburgerIconContainer = styled.TouchableOpacity`
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 38px;
+  height: 26px;
+  z-index: 1;
 `
 
 const StyledLogo = styled(Logo)`
   position: relative;
-  left: -10px;
-  top: -5px;
+  margin-left: -10px;
+  margin-top: -15px;
+  width: 50px;
+  z-index: 0;
 `;
 
 const CloudsBackground = styled(Clouds)`
@@ -30,10 +36,14 @@ const CloudsBackground = styled(Clouds)`
 `;
 
 const MainScreenHeader = () => {
+  const navigation = useNavigation();
+
   return (
     <ScreenContainer>
       <CloudsBackground />
-      <Hamburger />
+      <HamburgerIconContainer onPress={() => navigation.toggleDrawer()}>
+        <HamburguerIcon />
+      </HamburgerIconContainer>
       <StyledLogo />
     </ScreenContainer>
   )
