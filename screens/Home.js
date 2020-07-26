@@ -5,7 +5,6 @@ import { FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import SoundItem from '../components/SoundItem';
 import MainScreenHeader from '../components/MainScreenHeader';
-import Logo from '../components/Logo';
 import data from './data';
 
 const Container = styled(LinearGradient).attrs({
