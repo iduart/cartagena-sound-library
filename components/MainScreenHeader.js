@@ -5,7 +5,7 @@ import HamburguerIcon from './Icons/HamburguerIcon';
 import Clouds from './Clouds';
 
 const ScreenContainer = styled.View`
-  padding: 20px 10px;
+  padding: 40px 10px;
 `;
 
 const Hamburger = styled(HamburguerIcon)`

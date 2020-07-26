@@ -3,35 +3,37 @@ import Svg, { Path } from "react-native-svg";
 import { Animated } from 'react-native';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
-const ANIMATION_DURATION = 70000;
+const ANIMATION_DURATION = 40000;
+const commonAnimationConfig = {
+  duration: ANIMATION_DURATION,
+  useNativeDriver: true,
+}
 
 const Clouds = (props) => {
-  const anim = new Animated.Value(0);
+  const positionX = new Animated.Value(0);
 
-  const translateX = anim.interpolate({
+  const translateX = positionX.interpolate({
     inputRange: [0, 1],
     outputRange: [-850, 0],
   })
 
-  const moveLeftToRight = () => {
-    Animated.timing(anim, {
-      toValue: 1,
-      duration: ANIMATION_DURATION,
-      useNativeDriver: true,
-    }).start(() => moveRightToLeft());
-  }
-
-  const moveRightToLeft = () => {
-    Animated.timing(anim, {
-      toValue: 0,
-      duration: ANIMATION_DURATION,
-      useNativeDriver: true,
-    }).start(() => moveLeftToRight());
+  const moveClouds = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(positionX, {
+          toValue: 1,
+          ...commonAnimationConfig,
+        }),
+        Animated.timing(positionX, {
+          toValue: 0,
+          ...commonAnimationConfig,
+        })
+      ])).start()
   }
 
   React.useEffect(() => {
-    moveLeftToRight();
-  }, []);
+    moveClouds();
+  }, [positionX]);
 
   return (
     <Svg width="100%" height="150" viewBox="0 0 288.312 105.351" {...props}>
