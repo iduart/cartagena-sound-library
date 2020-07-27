@@ -7,7 +7,7 @@ import HamburguerIcon from './Icons/HamburguerIcon';
 import Clouds from './Clouds';
 
 const ScreenContainer = styled.View`
-  padding: 40px 0 10px 0;
+  padding: 20px 0 10px 0;
 `;
 
 const HamburgerIconContainer = styled.TouchableOpacity`

@@ -1,13 +1,15 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
-import { FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import SoundItem from '../components/SoundItem';
 import MainScreenHeader from '../components/MainScreenHeader';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import SearchBar from '../components/SearchBar';
-import data from './data';
+import SoundList from '../components/SoundList';
+
+const SafeArea = styled(SafeAreaView)`
+  flex: 1;
+`;
 
 const Container = styled(LinearGradient).attrs({
   colors: ['#FFE17E', '#F37578']
@@ -20,14 +22,15 @@ const Tab = createMaterialTopTabNavigator();
 
 const TabContainer = styled.View`
   margin-top: 20px;
-  height: 500px;
+  flex: 1;
 `;
 
 const Tabs = styled(Tab.Navigator).attrs({
   tabBarOptions: {
     labelStyle: {
       color: '#FFFFFF',
-      fontSize: 16
+      fontSize: 16,
+      fontWeight: 'bold',
     },
     indicatorStyle: {
       backgroundColor: '#FF7F00',
@@ -40,34 +43,23 @@ const Tabs = styled(Tab.Navigator).attrs({
     backgroundColor: 'transparent',
     borderTopColor: '#FFFFFF',
     borderTopWidth: 2,
-    marginTop: -2
+    marginTop: -2,
   },
 })``;
 
-const Home = ({ navigation }) => {
-
-  const handleNamePress = (item) => () => {
-    navigation.navigate('soundDetail', item);
-  }
-
+const Home = () => {
   return (
     <Container>
-      <MainScreenHeader />
-      <SearchBar />
-      <TabContainer>
-        <Tabs>
-          <Tab.Screen name="favoritos" component={() => (<SafeAreaView />)} />
-          <Tab.Screen name="explorar" component={() => (<SafeAreaView />)} />
-        </Tabs>
-      </TabContainer>
-      <FlatList
-        data={data}
-        // renderItem={
-        //   ({ item }) => <SoundItem sound={item} handleNamePress={handleNamePress(item)} />
-        // }
-        keyExtractor={item => item.code}
-        showsVerticalScrollIndicator={false}
-      />
+      <SafeArea>
+        <MainScreenHeader />
+        <SearchBar />
+        <TabContainer>
+          <Tabs>
+            <Tab.Screen name="favoritos" component={SoundList} />
+            <Tab.Screen name="explorar" component={SoundList} />
+          </Tabs>
+        </TabContainer>
+      </SafeArea>
     </Container>
   )
 }
