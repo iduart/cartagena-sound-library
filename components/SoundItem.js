@@ -1,53 +1,67 @@
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Audio } from 'expo-av';
+import * as Sharing from 'expo-sharing';
+import { Asset } from 'expo-asset';
 import styled from 'styled-components';
 import Images from '../images';
 import Sounds from '../media';
 
 const Container = styled.View`
-  height: 350px;
-  border: solid #FF6700 5px;
-  padding: 15px;
-  margin-bottom: 30px;
+  height: 80px;
+  margin-bottom: 10px;
+  border: solid #FFFFFF 1px;
+  border-radius: 22px;
+  padding: 7px 15px 7px 7px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+`;
+
+const SoundItemPictureContainer = styled.View`
+  height: 100%;
+  padding-right: 10px;
+  border-right-width: 2px;
+  border-right-color: #FFFFFF;
+  flex-basis: 23%;
 `;
 
 const SoundItemPicture = styled.ImageBackground`
+  height: 100%;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+`;
+
+const SoundItemTextContainer = styled.View`
+  padding: 10px;
   flex: 1;
-  justify-content: center;
 `;
 
-const ControlIcon = styled(Icon)`
-  align-self: center;
+const SoundItemText = styled.Text`
+  font-size: 18px;
+  color: #FFFFFF;
+  font-weight: bold;
 `;
 
-const SoundItemText = styled.View`
-  height: 45px;
+const SoundItemSubText = styled.Text`
+  font-size: 14px;
+  color: #FFFFFF;
+  margin-top: 5px;
+`;
+
+const ActionsContainer = styled.View`
   flex-direction: row;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  flex-basis: 15%;
 `;
 
-const Link = styled.Text`
-  color: ${props => props.color || '#000000'};
-  text-decoration-line: underline;
-  font-size: 20px;
-`;
-
-const DecorativeColorBox = styled.View`
-  background-color: ${props => props.color || 'white'};
-  color: red;
-  flex-grow: ${props => props.grow || 0};
-  padding: 5px 10px;
-  justify-content: center;
-`;
-
-const SoundItem = ({ sound = {}, handleNamePress }) => {
+const SoundItem = ({ sound = {} }) => {
   const [playing, setPlaying] = React.useState(false);
   const [soundObject, setSoundObject] = React.useState();
-  const { thumbnail, text, code } = sound;
+  const { thumbnail, text, code, author } = sound;
 
   React.useEffect(() => {
     setSoundObject(new Audio.Sound());
@@ -77,28 +91,50 @@ const SoundItem = ({ sound = {}, handleNamePress }) => {
     await soundObject.setPositionAsync(0);
   }
 
+  const shareSound = async () => {
+    const soundFile = Sounds[code];
+    const canShare = await Sharing.isAvailableAsync();
+    if (canShare) {
+      await Asset.fromModule(soundFile).downloadAsync();
+      const localUri = await Asset.fromModule(soundFile).localUri;
+
+      Sharing.shareAsync(localUri, {
+        mimeType: 'audio/mpeg',
+        dialogTitle: text,
+        UTI: 'public.mp3',
+      })
+    }
+  }
+
   return (
-    <TouchableWithoutFeedback onPress={playSound}>
-      <Container>
+    <Container>
+      <SoundItemPictureContainer>
         <SoundItemPicture source={Images[thumbnail]}>
-          {!playing && <ControlIcon name="playcircleo" size={100} color="white" />}
-           {playing && (
-            <TouchableWithoutFeedback onPress={stopSound}>
-              <ControlIcon name="pausecircleo" size={100} color="white" />
+          {!playing && (
+            <TouchableWithoutFeedback onPress={playSound}>
+              <Icon name="playcircleo" size={30} color="white" />
             </TouchableWithoutFeedback>
           )}
-          <TouchableWithoutFeedback onPress={handleNamePress}>
-            <SoundItemText>
-              <DecorativeColorBox color="#000000" grow="8">
-                <Link color="#FFFFFF">{text}</Link>
-              </DecorativeColorBox>
-              <DecorativeColorBox color="#828282" />
-              <DecorativeColorBox color="#3D3D3D" />
-            </SoundItemText>
-          </TouchableWithoutFeedback>
+          {playing && (
+            <TouchableWithoutFeedback onPress={stopSound}>
+              <Icon name="pausecircleo" size={30} color="white" />
+            </TouchableWithoutFeedback>
+          )}
         </SoundItemPicture>
-      </Container>
-    </TouchableWithoutFeedback>
+      </SoundItemPictureContainer>
+      <SoundItemTextContainer>
+          <SoundItemText numberOfLines={1}>{text}</SoundItemText>
+        <SoundItemSubText numberOfLines={1}>Créditos: {author}</SoundItemSubText>
+      </SoundItemTextContainer>
+      <ActionsContainer>
+        <TouchableOpacity onPress={() => alert("Comming soon...")}>
+          <Icon name="hearto" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={shareSound}>
+          <Icon name="sharealt" size={25} color="#FFFFFF" />
+        </TouchableOpacity>
+      </ActionsContainer>
+    </Container>
   )
 }
 
