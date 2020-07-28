@@ -1,12 +1,10 @@
 import React from 'react';
-import { TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { TouchableWithoutFeedback, TouchableOpacity, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Audio } from 'expo-av';
 import * as Sharing from 'expo-sharing';
-import { Asset } from 'expo-asset';
 import styled from 'styled-components';
-import Images from '../images';
-import Sounds from '../media';
+import { useSoundFileUri } from '../utils/getSoundFile';
 
 const Container = styled.View`
   height: 80px;
@@ -61,11 +59,13 @@ const ActionsContainer = styled.View`
 const SoundItem = ({ sound = {} }) => {
   const [playing, setPlaying] = React.useState(false);
   const [soundObject, setSoundObject] = React.useState();
-  const { thumbnail, text, code, author } = sound;
+  const { thumbnail, name, author } = sound;
 
-  React.useEffect(() => {
-    setSoundObject(new Audio.Sound());
-  }, [])
+  const {
+    getSoundFile,
+    loading: soundUriLoading,
+    error: soundUriError
+  } = useSoundFileUri(sound);
 
   const onPlaybackStatusUpdate = (playbackStatus) => {
     if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
@@ -75,9 +75,10 @@ const SoundItem = ({ sound = {} }) => {
 
   const playSound = async () => {
     setPlaying(true);
+    const soundUri = await getSoundFile();
     await soundObject.unloadAsync();
     soundObject.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
-    await soundObject.loadAsync(Sounds[code]);
+    await soundObject.loadAsync({ uri: soundUri });
     await soundObject.playAsync();
   }
 
@@ -92,24 +93,29 @@ const SoundItem = ({ sound = {} }) => {
   }
 
   const shareSound = async () => {
-    const soundFile = Sounds[code];
+    const soundUri = await getSoundFile();
+    if (!soundUri || soundUriError) {
+      alert("No se pudo compartir este sonido");
+    }
+
     const canShare = await Sharing.isAvailableAsync();
     if (canShare) {
-      await Asset.fromModule(soundFile).downloadAsync();
-      const localUri = await Asset.fromModule(soundFile).localUri;
-
-      Sharing.shareAsync(localUri, {
+      Sharing.shareAsync(soundUri, {
         mimeType: 'audio/mpeg',
-        dialogTitle: text,
+        dialogTitle: name,
         UTI: 'public.mp3',
       })
     }
   }
 
+  React.useEffect(() => {
+    setSoundObject(new Audio.Sound());
+  }, [])
+
   return (
     <Container>
       <SoundItemPictureContainer>
-        <SoundItemPicture source={Images[thumbnail]}>
+        <SoundItemPicture source={{ uri: thumbnail }}>
           {!playing && (
             <TouchableWithoutFeedback onPress={playSound}>
               <Icon name="playcircleo" size={30} color="white" />
@@ -123,7 +129,7 @@ const SoundItem = ({ sound = {} }) => {
         </SoundItemPicture>
       </SoundItemPictureContainer>
       <SoundItemTextContainer>
-          <SoundItemText numberOfLines={1}>{text}</SoundItemText>
+        <SoundItemText numberOfLines={1}>{name}</SoundItemText>
         <SoundItemSubText numberOfLines={1}>Créditos: {author}</SoundItemSubText>
       </SoundItemTextContainer>
       <ActionsContainer>
