@@ -20,10 +20,8 @@ const List = styled.FlatList`
   padding-top: 30px;
 `;
 
-const SoundList = () => {  
+const SoundList = () => {
   const { loading, error, data } = useQuery(GET_SOUNDS);
-
-  console.log("DATA", data);
 
   if (loading) return <Text>loading...</Text>;
   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
