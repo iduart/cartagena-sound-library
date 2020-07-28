@@ -12,6 +12,8 @@ const GET_SOUNDS = gql`
       name
       sound
       thumbnail
+      author
+      tags
     }
   }
 `;
