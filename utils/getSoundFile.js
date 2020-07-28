@@ -10,18 +10,18 @@ export const useSoundFileUri = (sound) => {
   const [error, setError] = React.useState();
 
   const getSoundFile = async () => {
-    setLoading(true);
     let fileUri;
     const { sound: soundUrl } = sound;
   
     try {
       // check if file is already in cache
       const storedFileUri = await AsyncStorage.getItem(getSoundFileKey(sound._id));
-      const cacheFile = await FileSystem.getInfoAsync(storedFileUri || '');
+      const cacheFile = storedFileUri ? await FileSystem.getInfoAsync(storedFileUri || '') : null;
   
       if (cacheFile && cacheFile.exists && cacheFile.uri) {
         fileUri = cacheFile.uri;
       } else {
+        setLoading(true);
         //download and save in cache
         const file = await FileSystem.downloadAsync(soundUrl, getSoundFileName(sound._id));
         fileUri =  file.uri;

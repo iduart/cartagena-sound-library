@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableWithoutFeedback, TouchableOpacity, AsyncStorage } from 'react-native';
+import { TouchableWithoutFeedback, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Audio } from 'expo-av';
 import * as Sharing from 'expo-sharing';
@@ -82,7 +82,7 @@ const SoundItem = ({ sound = {} }) => {
     await soundObject.playAsync();
   }
 
-  const stopSound = async () => {
+  const stopSound = async () => { 
     resetSound();
     setPlaying(false);
   }
@@ -116,12 +116,15 @@ const SoundItem = ({ sound = {} }) => {
     <Container>
       <SoundItemPictureContainer>
         <SoundItemPicture source={{ uri: thumbnail }}>
-          {!playing && (
+          {soundUriLoading && (
+            <ActivityIndicator size="large" color="#FFFFFF" />
+          )}
+          {!playing && !soundUriLoading && (
             <TouchableWithoutFeedback onPress={playSound}>
               <Icon name="playcircleo" size={30} color="white" />
             </TouchableWithoutFeedback>
           )}
-          {playing && (
+          {playing && !soundUriLoading && (
             <TouchableWithoutFeedback onPress={stopSound}>
               <Icon name="pausecircleo" size={30} color="white" />
             </TouchableWithoutFeedback>

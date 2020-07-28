@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Dimensions } from 'react-native';
+import { TouchableOpacity, Alert, Linking } from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
@@ -72,13 +72,25 @@ const LogoutText = styled.Text`
   font-size: 25px;
 `;
 
-const windowHeight = Dimensions.get('window').height;
-
 const DrawerContent = (props) => {
   const authenticated = false;
+
+  const showCreateSoundAlert = () => {
+    Alert.alert(
+      "Todavia no he terminado esta parte...",
+      "Pero puedes enviarme un email con el sonido que quieres agregar y yo lo agrego enseguida!",
+      [
+        {
+          text: "Mejor no! 😒",
+        },
+        { text: "Enviar correo 👍", onPress: async () =>  await Linking.openURL('mailto:cartagenasoundlibrary@gmail.com?subject=Quiero un sonido') }
+      ],
+    );
+  }
+
   return (
     <Container {...props}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={showCreateSoundAlert}>
         <Button>
           <Icon name="clouduploado" size={30} color="#FFFFFF" />
           <ButtonText>AGREGAR SONIDO</ButtonText>
@@ -123,7 +135,7 @@ const DrawerContent = (props) => {
         </Menu>
       )}
       {authenticated && (
-        <FooterContainer positionY={windowHeight - 200}>
+        <FooterContainer>
           <Logout>
             <LogoutText>Salir</LogoutText>
           </Logout>

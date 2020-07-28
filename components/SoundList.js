@@ -34,7 +34,7 @@ const SoundList = () => {
       renderItem={
         ({ item }) => <SoundItem key={item._id} sound={item} />
       }
-      keyExtractor={item => item.code}
+      keyExtractor={item => item._id}
       showsVerticalScrollIndicator={false}
     />
   )
