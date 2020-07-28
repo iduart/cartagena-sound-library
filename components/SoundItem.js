@@ -61,7 +61,7 @@ const ActionsContainer = styled.View`
 const SoundItem = ({ sound = {} }) => {
   const [playing, setPlaying] = React.useState(false);
   const [soundObject, setSoundObject] = React.useState();
-  const { thumbnail, text, code, author } = sound;
+  const { thumbnail, name, code, author, sound: soundUrl } = sound;
 
   React.useEffect(() => {
     setSoundObject(new Audio.Sound());
@@ -77,7 +77,7 @@ const SoundItem = ({ sound = {} }) => {
     setPlaying(true);
     await soundObject.unloadAsync();
     soundObject.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
-    await soundObject.loadAsync(Sounds[code]);
+    await soundObject.loadAsync({ uri: soundUrl });
     await soundObject.playAsync();
   }
 
@@ -100,7 +100,7 @@ const SoundItem = ({ sound = {} }) => {
 
       Sharing.shareAsync(localUri, {
         mimeType: 'audio/mpeg',
-        dialogTitle: text,
+        dialogTitle: name,
         UTI: 'public.mp3',
       })
     }
@@ -109,7 +109,7 @@ const SoundItem = ({ sound = {} }) => {
   return (
     <Container>
       <SoundItemPictureContainer>
-        <SoundItemPicture source={Images[thumbnail]}>
+        <SoundItemPicture source={{ uri: thumbnail }}>
           {!playing && (
             <TouchableWithoutFeedback onPress={playSound}>
               <Icon name="playcircleo" size={30} color="white" />
@@ -123,7 +123,7 @@ const SoundItem = ({ sound = {} }) => {
         </SoundItemPicture>
       </SoundItemPictureContainer>
       <SoundItemTextContainer>
-          <SoundItemText numberOfLines={1}>{text}</SoundItemText>
+        <SoundItemText numberOfLines={1}>{name}</SoundItemText>
         <SoundItemSubText numberOfLines={1}>Créditos: {author}</SoundItemSubText>
       </SoundItemTextContainer>
       <ActionsContainer>
