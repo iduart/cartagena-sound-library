@@ -18,9 +18,9 @@ const GET_SOUNDS = gql`
   }
 `;
 
-const List = styled.FlatList`
-  padding-top: 30px;
-`;
+const List = styled.FlatList.attrs({
+  contentContainerStyle: { paddingTop: 30 }
+})``;
 
 const SoundList = () => {
   const { loading, error, data } = useQuery(GET_SOUNDS);
