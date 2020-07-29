@@ -133,7 +133,7 @@ const SoundItem = ({ sound = {} }) => {
       </SoundItemPictureContainer>
       <SoundItemTextContainer>
         <SoundItemText numberOfLines={1}>{name}</SoundItemText>
-        <SoundItemSubText numberOfLines={1}>Créditos: {author}</SoundItemSubText>
+        <SoundItemSubText numberOfLines={1}>{author}</SoundItemSubText>
       </SoundItemTextContainer>
       <ActionsContainer>
         <TouchableOpacity onPress={() => alert("Comming soon...")}>
