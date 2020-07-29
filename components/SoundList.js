@@ -5,6 +5,14 @@ import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import SoundItem from './SoundItem';
 
+const List = styled.FlatList.attrs({
+  contentContainerStyle: { paddingTop: 30 }
+})``;
+
+const ActivityIndicator = styled.ActivityIndicator`
+  margin-top: 30px;
+`;
+
 const GET_SOUNDS = gql`
   query getSounds {
     sounds {
@@ -18,14 +26,10 @@ const GET_SOUNDS = gql`
   }
 `;
 
-const List = styled.FlatList.attrs({
-  contentContainerStyle: { paddingTop: 30 }
-})``;
-
 const SoundList = () => {
   const { loading, error, data } = useQuery(GET_SOUNDS);
 
-  if (loading) return <Text>loading...</Text>;
+  if (loading) return <ActivityIndicator color="#FFFFFF" size="large" />;
   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
 
   return (
