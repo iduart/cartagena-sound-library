@@ -14,8 +14,8 @@ const ActivityIndicator = styled.ActivityIndicator`
 `;
 
 const GET_SOUNDS = gql`
-  query getSounds {
-    sounds {
+  query getSounds($filters: filtersInput) {
+    sounds(input: $filters) {
       _id
       name
       sound
@@ -27,7 +27,13 @@ const GET_SOUNDS = gql`
 `;
 
 const SoundList = () => {
-  const { loading, error, data } = useQuery(GET_SOUNDS);
+  const { loading, error, data } = useQuery(GET_SOUNDS, {
+    variables: {
+      filters: {
+        search: ''
+      }
+    }
+  });
 
   if (loading) return <ActivityIndicator color="#FFFFFF" size="large" />;
   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
