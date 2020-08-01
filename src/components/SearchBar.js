@@ -1,6 +1,9 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import debounce from 'lodash/debounce';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/AntDesign'
+import Icon from 'react-native-vector-icons/AntDesign';
+import globalSearch from '../store/globalSearch';
 
 const Container = styled.View`
   padding-horizontal: 30px;
@@ -28,10 +31,16 @@ const Input = styled.TextInput.attrs({
 `;
 
 const SearchBar = () => {
+  const dispatch = useDispatch();
+
+  const handleChange = debounce((value) => {
+    dispatch(globalSearch.actions.setSearch(value));
+  }, 250)
+
   return (
     <Container>
       <SearchInput>
-        <Input placeholder="Buscar..." />
+        <Input placeholder="Buscar..." onChangeText={handleChange} autoCorrect={false} />
         <Icon name="search1" size={18} color="#FFFFFF" />
       </SearchInput>
     </Container>

@@ -1,9 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import SoundItem from './SoundItem';
+import { globalSearchSelectors } from '../store/globalSearch';
 
 const List = styled.FlatList.attrs({
   contentContainerStyle: { paddingTop: 30 }
@@ -27,10 +29,11 @@ const GET_SOUNDS = gql`
 `;
 
 const SoundList = () => {
+  const searchText = useSelector(globalSearchSelectors.getSearchText);
   const { loading, error, data } = useQuery(GET_SOUNDS, {
     variables: {
       filters: {
-        search: ''
+        search: searchText
       }
     }
   });
