@@ -23,13 +23,14 @@ const Container = styled(LinearGradient).attrs({
 const Tab = createMaterialTopTabNavigator();
 
 const TabContainer = styled.View`
-  margin-top: 20px;
+  margin-top: 15px;
   flex: 1;
 `;
 
 const AdContainer = styled.View`
   align-items: center;
-  border: solid #FFFFFF 1px;
+  border-top-color: #FFFFFF;
+  border-top-width: 1px;
   border-radius: 10px;
   display: ${props => props.show ? 'flex' : 'none' }
 `;

@@ -6,10 +6,6 @@ import Logo from './Logo';
 import HamburguerIcon from './Icons/HamburguerIcon';
 import Clouds from './Clouds';
 
-const ScreenContainer = styled.View`
-  padding: 20px 0 10px 0;
-`;
-
 const HamburgerIconContainer = styled.TouchableOpacity`
   margin-left: 10px;
   margin-top: 10px;
@@ -29,7 +25,6 @@ const StyledLogo = styled(Logo)`
 const CloudsBackground = styled(Clouds)`
   position: absolute;
   align-self: center;
-  margin-top: 30px;
   height: 100%;
   width: 100%;
   flex: 1;
@@ -39,13 +34,13 @@ const MainScreenHeader = () => {
   const navigation = useNavigation();
 
   return (
-    <ScreenContainer>
+    <View>
       <CloudsBackground />
       <HamburgerIconContainer onPress={() => navigation.toggleDrawer()}>
         <HamburguerIcon />
       </HamburgerIconContainer>
       <StyledLogo />
-    </ScreenContainer>
+    </View>
   )
 }
 

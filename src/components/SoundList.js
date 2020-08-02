@@ -8,7 +8,7 @@ import SoundItem from './SoundItem';
 import { globalSearchSelectors } from '../store/globalSearch';
 
 const List = styled.FlatList.attrs({
-  contentContainerStyle: { paddingTop: 30 }
+  contentContainerStyle: { paddingTop: 20 }
 })``;
 
 const ActivityIndicator = styled.ActivityIndicator`

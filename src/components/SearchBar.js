@@ -6,12 +6,13 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import globalSearch from '../store/globalSearch';
 
 const Container = styled.View`
+  margin-top: 10px;
   padding-horizontal: 30px;
 `;
 
 const SearchInput = styled.View`
   border: solid #FFFFFF 1px;
-  height: 46px;
+  height: 40px;
   border-radius: 30px;
   padding: 5px 25px;
   color: #FFFFFF;
