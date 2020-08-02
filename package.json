@@ -21,6 +21,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link-http": "^1.5.17",
     "expo": "~38.0.8",
+    "expo-ads-admob": "~8.2.1",
     "expo-asset": "~8.1.7",
     "expo-av": "~8.2.1",
     "expo-file-system": "~9.0.1",

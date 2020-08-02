@@ -6,6 +6,8 @@ import MainScreenHeader from '../components/MainScreenHeader';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import SearchBar from '../components/SearchBar';
 import SoundList from '../components/SoundList';
+import { AdMobBanner } from 'expo-ads-admob';
+import config from '../config';
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -23,6 +25,13 @@ const Tab = createMaterialTopTabNavigator();
 const TabContainer = styled.View`
   margin-top: 20px;
   flex: 1;
+`;
+
+const AdContainer = styled.View`
+  align-items: center;
+  border: solid #FFFFFF 1px;
+  border-radius: 10px;
+  display: ${props => props.show ? 'flex' : 'none' }
 `;
 
 const Tabs = styled(Tab.Navigator).attrs({
@@ -48,6 +57,8 @@ const Tabs = styled(Tab.Navigator).attrs({
 })``;
 
 const Home = () => {
+  const [showAdContainer, setShowAdContainer] = React.useState(false);
+
   return (
     <Container>
       <SafeArea>
@@ -59,6 +70,14 @@ const Home = () => {
             <Tab.Screen name="explorar" component={SoundList} />
           </Tabs>
         </TabContainer>
+        <AdContainer show={showAdContainer}>
+          <AdMobBanner
+            bannerSize="banner"
+            adUnitID={config.ADD_UNIT_ID}
+            servePersonalizedAds
+            onAdViewDidReceiveAd={() => setShowAdContainer(true)}
+          />
+        </AdContainer>
       </SafeArea>
     </Container>
   )

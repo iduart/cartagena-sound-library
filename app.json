@@ -18,11 +18,17 @@
     "ios": {
       "bundleIdentifier": "com.iduart.cartagenasoundlibrary",
       "buildNumber": "1.0.0",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-1100445203218854~2338499599"
+      }
     },
     "android": {
       "package": "com.iduart.cartagenasoundlibrary",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-1100445203218854~3901609694"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
