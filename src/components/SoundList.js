@@ -16,8 +16,8 @@ const ActivityIndicator = styled.ActivityIndicator`
 `;
 
 const GET_SOUNDS = gql`
-  query getSounds($filters: filtersInput) {
-    sounds(input: $filters) {
+  query getSounds($filters: filtersInput, $offset: Int!) {
+    sounds(filters: $filters, offset: $offset) {
       _id
       name
       sound
@@ -29,16 +29,39 @@ const GET_SOUNDS = gql`
 `;
 
 const SoundList = () => {
+  const [hasMoreResults, setHasMoreResults] = React.useState(true);
   const searchText = useSelector(globalSearchSelectors.getSearchText);
-  const { loading, error, data } = useQuery(GET_SOUNDS, {
+  const { loading, error, data = {}, fetchMore } = useQuery(GET_SOUNDS, {
     variables: {
       filters: {
-        search: searchText
-      }
-    }
+        search: searchText,
+      },
+      offset: 0,
+    },
+    notifyOnNetworkStatusChange: true,
   });
 
-  if (loading) return <ActivityIndicator color="#FFFFFF" size="large" />;
+  const handleFetchMore = React.useCallback(() => {   
+    if (loading) return;
+     
+    fetchMore({
+      variables: {
+        offset: data.sounds.length
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+
+        if (fetchMoreResult && !fetchMoreResult.sounds.length) {
+          setHasMoreResults(false);
+        }
+
+        return Object.assign({}, prev, {
+          sounds: [...prev.sounds, ...fetchMoreResult.sounds]
+        });
+      }
+    })
+  }, [data.sounds, loading]);
+
   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
 
   return (
@@ -49,6 +72,11 @@ const SoundList = () => {
       }
       keyExtractor={item => item._id}
       showsVerticalScrollIndicator={false}
+      onEndReachedThreshold={0.5}
+      onEndReached={handleFetchMore}
+      ListFooterComponent={
+        () => hasMoreResults && loading ? <ActivityIndicator color="#FFFFFF" size="large" /> : null
+      }
     />
   )
 }
