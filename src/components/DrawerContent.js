@@ -99,13 +99,13 @@ const DrawerContent = (props) => {
       {!authenticated && (
         <Menu>
           <MenuItem>
-            <MenuItemTouchable>
+            <MenuItemTouchable onPress={() => alert('comming soon...')}>
               <MenuItemIcon name="login" size={25} color="#FFFFFF" />
               <MenuItemText>Entrar</MenuItemText>
             </MenuItemTouchable>
           </MenuItem>
           <MenuItem isLast={true}>
-            <MenuItemTouchable>
+            <MenuItemTouchable onPress={() => alert('comming soon...')}>
               <MenuItemIcon name="form" size={25} color="#FFFFFF" />
               <MenuItemText>Registrarse</MenuItemText>
             </MenuItemTouchable>
