@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Cartagena Sound Library",
+    "description": "Cartagena sound library es una biblioteca de sonidos que puedes utilizar como reacciones en tus conversaciones. Tiene frases y expresiones de personajes famosos de Colombia y el mundo que puedes enviarle a tus amigos para darle un toque de humor a tu chat.",
     "slug": "cartagena-sound-library",
     "version": "1.0.0",
     "orientation": "portrait",
