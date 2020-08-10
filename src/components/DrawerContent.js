@@ -24,6 +24,7 @@ const ButtonText = styled.Text`
   color: #FFFFFF;
   font-size: 20px;
   font-weight: bold;
+  margin-left: 10px;
 `;
 
 const Menu = styled.View`
