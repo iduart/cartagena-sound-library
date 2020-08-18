@@ -11,7 +11,7 @@ if (Platform.OS === 'android') {
 
 // Config
 let config = {
-  API_URL: 'http://192.168.1.52:8000/',
+  API_URL: 'http://192.168.1.142:8000/',
   ADD_UNIT_ID: 'ca-app-pub-3940256099942544/6300978111', // Test ID 
 };
 

@@ -1,11 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
+import Constants from 'expo-constants';
 import SoundItem from './SoundItem';
-import { globalSearchSelectors } from '../store/globalSearch';
 
 const List = styled.FlatList.attrs({
   contentContainerStyle: { paddingTop: 20 }
@@ -15,65 +13,36 @@ const ActivityIndicator = styled.ActivityIndicator`
   margin-top: 30px;
 `;
 
-const GET_SOUNDS = gql`
-  query getSounds($filters: filtersInput, $offset: Int!) {
-    sounds(filters: $filters, offset: $offset) {
-      _id
-      name
-      sound
-      thumbnail
-      author
-      tags
-    }
+const GET_FAVORITES_SOUNDS_IDS = gql`
+  query deviceFavoritesSoundsIds($deviceId: String!) {
+    deviceFavoritesSoundsIds(deviceId: $deviceId) 
   }
 `;
 
-const SoundList = () => {
-  const [hasMoreResults, setHasMoreResults] = React.useState(true);
-  const searchText = useSelector(globalSearchSelectors.getSearchText);
-  const { loading, error, data = {}, fetchMore } = useQuery(GET_SOUNDS, {
+const SoundList = ({
+  sounds = [],
+  onFetchMore = () => {},
+  hasMoreResults,
+  loading
+ }) => {
+  const { data: favoritesResults = { deviceFavoritesSoundsIds: [] } } = useQuery(GET_FAVORITES_SOUNDS_IDS, {
     variables: {
-      filters: {
-        search: searchText,
-      },
-      offset: 0,
-    },
-    notifyOnNetworkStatusChange: true,
+      deviceId: Constants.deviceId
+    }
   });
 
-  const handleFetchMore = React.useCallback(() => {   
-    if (loading) return;
-     
-    fetchMore({
-      variables: {
-        offset: data.sounds.length
-      },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult) return prev;
-
-        if (fetchMoreResult && !fetchMoreResult.sounds.length) {
-          setHasMoreResults(false);
-        }
-
-        return Object.assign({}, prev, {
-          sounds: [...prev.sounds, ...fetchMoreResult.sounds]
-        });
-      }
-    })
-  }, [data.sounds, loading]);
-
-  if (error) return <Text>Error {JSON.stringify(error)}</Text>;
+  const isFavorite = soundId => favoritesResults.deviceFavoritesSoundsIds.indexOf(soundId) > -1;
 
   return (
     <List
-      data={data.sounds || []}
+      data={sounds}
       renderItem={
-        ({ item }) => <SoundItem key={item._id} sound={item} />
+        ({ item }) => <SoundItem key={item._id} sound={item} isFavorite={isFavorite(item._id)} />
       }
       keyExtractor={item => item._id}
       showsVerticalScrollIndicator={false}
       onEndReachedThreshold={0.5}
-      onEndReached={handleFetchMore}
+      onEndReached={onFetchMore}
       ListFooterComponent={
         () => hasMoreResults && loading ? <ActivityIndicator color="#FFFFFF" size="large" /> : null
       }

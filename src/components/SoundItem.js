@@ -4,6 +4,9 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { Audio } from 'expo-av';
 import * as Sharing from 'expo-sharing';
 import styled from 'styled-components';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+import Constants from 'expo-constants';
 import { useSoundFileUri } from '../utils/getSoundFile';
 
 const Container = styled.View`
@@ -56,9 +59,18 @@ const ActionsContainer = styled.View`
   flex-basis: 15%;
 `;
 
-const SoundItem = ({ sound = {} }) => {
+const TOGGLE_FAVORITE = gql`
+  mutation toogleFavorite($deviceId: String!, $soundId: String!) {
+    toogleDeviceFavorite(deviceId: $deviceId, soundId: $soundId)
+  }
+`;
+
+
+const SoundItem = ({ sound = {}, ...props }) => {
   const [playing, setPlaying] = React.useState(false);
+  const [isFavorite, setIsFavorite] = React.useState(props.isFavorite);
   const [soundObject, setSoundObject] = React.useState();
+  const [toggleFavorite] = useMutation(TOGGLE_FAVORITE, { variables: { deviceId: Constants.deviceId, soundId: sound._id } });
   const { thumbnail, name, author } = sound;
 
   const {
@@ -108,6 +120,11 @@ const SoundItem = ({ sound = {} }) => {
     }
   }
 
+  const handleToggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+    toggleFavorite();
+  }
+
   React.useEffect(() => {
     setSoundObject(new Audio.Sound());
   }, [])
@@ -136,8 +153,9 @@ const SoundItem = ({ sound = {} }) => {
         <SoundItemSubText numberOfLines={1}>{author}</SoundItemSubText>
       </SoundItemTextContainer>
       <ActionsContainer>
-        <TouchableOpacity onPress={() => alert("Comming soon...")}>
-          <Icon name="hearto" size={20} color="#FFFFFF" />
+        <TouchableOpacity onPress={handleToggleFavorite}>
+          {isFavorite && <Icon name="heart" size={20} color="#e31b23" />}
+          {!isFavorite && <Icon name="hearto" size={20} color="#FFFFFF" />}
         </TouchableOpacity>
         <TouchableOpacity onPress={shareSound}>
           <Icon name="sharealt" size={25} color="#FFFFFF" />

@@ -9,7 +9,7 @@ const cache = new InMemoryCache()
 // instantiate apollo client with apollo link instance and cache instance
 const client = new ApolloClient({
   link,
-  cache
+  cache,
 });
 
 export default client;

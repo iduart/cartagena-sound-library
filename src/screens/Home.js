@@ -5,7 +5,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import MainScreenHeader from '../components/MainScreenHeader';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import SearchBar from '../components/SearchBar';
-import SoundList from '../components/SoundList';
+import ExploreSoundList from '../components/ExploreSoundsList';
+import FavoriteSoundList from '../components/FavoriteSoundsList';
 import { AdMobBanner } from 'expo-ads-admob';
 import config from '../config';
 
@@ -67,8 +68,8 @@ const Home = () => {
         <SearchBar />
         <TabContainer>
           <Tabs>
-            <Tab.Screen name="favoritos" component={SoundList} />
-            <Tab.Screen name="explorar" component={SoundList} />
+            <Tab.Screen name="favoritos" component={FavoriteSoundList} />
+            <Tab.Screen name="explorar" component={ExploreSoundList} />
           </Tabs>
         </TabContainer>
         <AdContainer show={showAdContainer}>
