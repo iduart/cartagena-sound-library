@@ -14,8 +14,8 @@ const EmptyState = styled.Text`
 `;
 
 const GET_FAVORITES_SOUNDS = gql`
-  query deviceFavoriteSounds($deviceId: String!) {
-    deviceFavoritesSounds(deviceId: $deviceId) {
+  query deviceFavoriteSounds($deviceId: String!, $offset: Int!) {
+    deviceFavoritesSounds(deviceId: $deviceId, offset: $offset) {
       _id
       name
       sound
@@ -27,17 +27,35 @@ const GET_FAVORITES_SOUNDS = gql`
 `;
 
 const FavoriteSoundList = () => {
-  const searchText = useSelector(globalSearchSelectors.getSearchText);
-  const { loading, error, data = {} } = useQuery(GET_FAVORITES_SOUNDS, {
+  const [hasMoreResults, setHasMoreResults] = React.useState(true);
+  const { loading, error, data = {}, fetchMore } = useQuery(GET_FAVORITES_SOUNDS, {
     variables: {
       deviceId: Constants.deviceId,
-      filters: {
-        search: searchText,
-      },
       offset: 0,
     },
     notifyOnNetworkStatusChange: true,
   });
+
+  const handleFetchMore = React.useCallback(() => {   
+    if (loading) return;
+     
+    fetchMore({
+      variables: {
+        offset: data.deviceFavoritesSounds.length
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+
+        if (fetchMoreResult && !fetchMoreResult.deviceFavoritesSounds.length) {
+          setHasMoreResults(false);
+        }
+
+        return Object.assign({}, prev, {
+          deviceFavoritesSounds: [...prev.deviceFavoritesSounds, ...fetchMoreResult.deviceFavoritesSounds]
+        });
+      }
+    })
+  }, [data.deviceFavoritesSounds, loading]);
 
   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
 
@@ -48,8 +66,8 @@ const FavoriteSoundList = () => {
   return (
     <SoundList
       sounds={data.deviceFavoritesSounds}
-      onFetchMore={() => { }}
-      hasMoreResults={false}
+      onFetchMore={handleFetchMore}
+      hasMoreResults={hasMoreResults}
       loading={loading}
     />
   )
