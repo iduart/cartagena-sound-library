@@ -65,12 +65,14 @@ const TOGGLE_FAVORITE = gql`
   }
 `;
 
-
 const SoundItem = ({ sound = {}, ...props }) => {
   const [playing, setPlaying] = React.useState(false);
   const [isFavorite, setIsFavorite] = React.useState(props.isFavorite);
   const [soundObject, setSoundObject] = React.useState();
-  const [toggleFavorite] = useMutation(TOGGLE_FAVORITE, { variables: { deviceId: Constants.deviceId, soundId: sound._id } });
+  const [toggleFavorite] = useMutation(TOGGLE_FAVORITE, {
+     variables: { deviceId: Constants.deviceId, soundId: sound._id },
+     refetchQueries: ['deviceFavoritesSoundsIds', 'deviceFavoriteSounds'],
+  });
   const { thumbnail, name, author } = sound;
 
   const {
@@ -128,6 +130,10 @@ const SoundItem = ({ sound = {}, ...props }) => {
   React.useEffect(() => {
     setSoundObject(new Audio.Sound());
   }, [])
+
+  React.useEffect(() => {
+    setIsFavorite(props.isFavorite);
+  }, [props.isFavorite])
 
   return (
     <Container>

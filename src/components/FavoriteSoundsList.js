@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import { Text } from 'react-native';
 import gql from 'graphql-tag';
@@ -6,6 +7,11 @@ import { useQuery } from '@apollo/react-hooks';
 import Constants from 'expo-constants';
 import SoundList from './SoundList';
 import { globalSearchSelectors } from '../store/globalSearch';
+
+const EmptyState = styled.Text`
+  margin-top: 30px;
+  text-align: center;
+`;
 
 const GET_FAVORITES_SOUNDS = gql`
   query deviceFavoriteSounds($deviceId: String!) {
@@ -35,10 +41,14 @@ const FavoriteSoundList = () => {
 
   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
 
+  if (!data.deviceFavoritesSounds || !data.deviceFavoritesSounds.length) {
+    return <EmptyState>Aún no has agregado favoritos</EmptyState>
+  }
+
   return (
     <SoundList
       sounds={data.deviceFavoritesSounds}
-      onFetchMore={() => {}}
+      onFetchMore={() => { }}
       hasMoreResults={false}
       loading={loading}
     />
