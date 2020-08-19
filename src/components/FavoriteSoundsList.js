@@ -1,16 +1,35 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import Constants from 'expo-constants';
 import SoundList from './SoundList';
-import { globalSearchSelectors } from '../store/globalSearch';
 
-const EmptyState = styled.Text`
+const EmptyState = styled.View`
   margin-top: 30px;
+`;
+
+const EmptyStateText = styled.Text`
   text-align: center;
+  font-size: 20px;
+  color: #FFFFFF;
+`;
+
+const EmptyStateIcon = styled.View`
+  margin-top: 10px;
+  align-items: center;
+`;
+
+const EmptyStateLink = styled.Text`
+  text-align: center;
+  font-size: 16px;
+  color: #FFFFFF;
+  margin-top: 10px;
+  text-decorationLine: underline;
+  text-decorationStyle: solid;
+  text-decorationColor: #FFFFFF;
 `;
 
 const GET_FAVORITES_SOUNDS = gql`
@@ -26,7 +45,7 @@ const GET_FAVORITES_SOUNDS = gql`
   }
 `;
 
-const FavoriteSoundList = () => {
+const FavoriteSoundList = ({ navigation }) => {
   const [hasMoreResults, setHasMoreResults] = React.useState(true);
   const { loading, error, data = {}, fetchMore } = useQuery(GET_FAVORITES_SOUNDS, {
     variables: {
@@ -60,7 +79,17 @@ const FavoriteSoundList = () => {
   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
 
   if (!data.deviceFavoritesSounds || !data.deviceFavoritesSounds.length) {
-    return <EmptyState>Aún no has agregado favoritos</EmptyState>
+    return (
+      <EmptyState>
+        <EmptyStateText>Aún no has agregado favoritos</EmptyStateText>
+        <TouchableOpacity onPress={() => navigation.navigate('explorar')}>
+          <EmptyStateLink>Explorar sonidos</EmptyStateLink>
+        </TouchableOpacity>
+        <EmptyStateIcon>
+          <Icon name="heart" color="#FFFFFF" size={80} />
+        </EmptyStateIcon>
+      </EmptyState>
+    )
   }
 
   return (
