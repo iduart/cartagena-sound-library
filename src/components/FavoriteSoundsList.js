@@ -78,7 +78,7 @@ const FavoriteSoundList = ({ navigation }) => {
 
   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
 
-  if (!data.deviceFavoritesSounds || !data.deviceFavoritesSounds.length) {
+  if (!loading && (!data.deviceFavoritesSounds || !data.deviceFavoritesSounds.length)) {
     return (
       <EmptyState>
         <EmptyStateText>Aún no has agregado favoritos</EmptyStateText>
