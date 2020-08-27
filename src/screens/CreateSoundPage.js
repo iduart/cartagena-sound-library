@@ -1,10 +1,13 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/AntDesign';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import Constants from 'expo-constants';
+import SoundItem from '../components/SoundItem';
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -87,26 +90,31 @@ const ButtonText = styled.Text`
   font-size: 25px
 `;
 
-const CREATE_SOUND = gql`
-  mutation createSound($input: addSoundInput!) {
-    createSound(input: $input) {
+const PREVIEW_SOUND = gql`
+  mutation previewSound($input: previewSoundInput!) {
+    previewSound(input: $input) {
+      _id
       name
+      author
+      sound
+      thumbnail
     }
   }
 `;
 
 const CreateSoundPage = () => {
-  const [createSound] = useMutation(CREATE_SOUND);
+  const [previewSound, { data: previewSoundResponse, loading: previewSoundLoading }] = useMutation(PREVIEW_SOUND);
 
   const submit = () => {
-    createSound({
+    previewSound({
       variables: {
         input: {
-          url: 'https://www.youtube.com/watch?v=B2jvVuNaQ5g',
-          from: '00:01:34',
+          url: 'https://www.youtube.com/watch?v=CJH-QqrFHsU',
+          from: '00:00:00',
           to: '8',
-          name: "No tienes otro lugar donde decir estupideces?",
-          author: 'Arenita - Bob Esponja',
+          name: "Duque pero que mondá",
+          author: 'El Turner',
+          deviceId: Constants.deviceId,
         }
       }
     })
@@ -142,9 +150,15 @@ const CreateSoundPage = () => {
             <FormFieldLabel>Autor:</FormFieldLabel>
             <Input placeholder="Ej. Moe - Los Simpsons" />
           </FormField>
+          <FormField>
+            {previewSoundLoading && (<ActivityIndicator size="large" color="#FFFFFF" />) }
+            {previewSoundResponse && previewSoundResponse.previewSound && (
+              <SoundItem sound={previewSoundResponse.previewSound} />
+            )}
+          </FormField>
           <ButtonContainer>
             <Button onPress={submit}>
-              <ButtonText>Agregar</ButtonText>
+              <ButtonText>Preview</ButtonText>
             </Button>
           </ButtonContainer>
         </FormContainer>
