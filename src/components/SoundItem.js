@@ -79,7 +79,7 @@ const SoundItem = ({ sound = {}, ...props }) => {
     getSoundFile,
     loading: soundUriLoading,
     error: soundUriError
-  } = useSoundFileUri(sound);
+  } = useSoundFileUri(sound, { disableCache: props.disableCache });
 
   const onPlaybackStatusUpdate = (playbackStatus) => {
     if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
@@ -159,10 +159,12 @@ const SoundItem = ({ sound = {}, ...props }) => {
         <SoundItemSubText numberOfLines={1}>{author}</SoundItemSubText>
       </SoundItemTextContainer>
       <ActionsContainer>
-        <TouchableOpacity onPress={handleToggleFavorite}>
-          {isFavorite && <Icon name="heart" size={20} color="#e31b23" />}
-          {!isFavorite && <Icon name="hearto" size={20} color="#FFFFFF" />}
-        </TouchableOpacity>
+        {!props.disableFavorite && (
+          <TouchableOpacity onPress={handleToggleFavorite}>
+            {isFavorite && <Icon name="heart" size={20} color="#e31b23" />}
+            {!isFavorite && <Icon name="hearto" size={20} color="#FFFFFF" />}
+          </TouchableOpacity>
+        )}
         <TouchableOpacity onPress={shareSound}>
           <Icon name="sharealt" size={25} color="#FFFFFF" />
         </TouchableOpacity>
