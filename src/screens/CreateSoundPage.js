@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Constants from 'expo-constants';
 import { Formik } from 'formik';
-import { TextInputMask } from 'react-native-masked-text'
+import { TextInputMask } from 'react-native-masked-text';
 import SoundItem from '../components/SoundItem';
 
 const SafeArea = styled(SafeAreaView)`
@@ -114,9 +114,9 @@ const ButtonText = styled.Text`
   font-size: 25px
 `;
 
-const PREVIEW_SOUND = gql`
-  mutation previewSound($input: previewSoundInput!) {
-    previewSound(input: $input) {
+const CREATE_SOUND = gql`
+  mutation createSound($input: createSoundInput!) {
+    createSound(input: $input) {
       _id
       name
       author
@@ -127,17 +127,17 @@ const PREVIEW_SOUND = gql`
 `;
 
 const CreateSoundPage = (props) => {
-  const [previewSound, { data: previewSoundResponse, loading: previewSoundLoading }] = useMutation(PREVIEW_SOUND, {
+  const [createSound, { data: createSoundResponse, loading: createSoundLoading }] = useMutation(CREATE_SOUND, {
     refetchQueries: ['getSounds'],
   });
 
   const submit = async (values, { resetForm }) => {
-    if (previewSoundLoading) {
+    if (createSoundLoading) {
       return;
     }
 
     const { url, from, to, name, author, isPreview } = values;
-    await previewSound({
+    await createSound({
       variables: {
         input: {
           url,
@@ -151,9 +151,8 @@ const CreateSoundPage = (props) => {
       }
     })
 
-    resetForm();
-
     if (!isPreview) {
+      resetForm();
       props.navigation.navigate('explorar');
     }
   }
@@ -263,11 +262,11 @@ const CreateSoundPage = (props) => {
                 ) : null}
               </FormField>
               <FormField>
-                {previewSoundLoading && (<ActivityIndicator size="large" color="#FFFFFF" />)}
-                {previewSoundResponse && previewSoundResponse.previewSound && (
+                {createSoundLoading && (<ActivityIndicator size="large" color="#FFFFFF" />)}
+                {createSoundResponse && createSoundResponse.createSound && (
                   <React.Fragment>
                     <FormFieldLabel>Preview</FormFieldLabel>
-                    <SoundItem sound={previewSoundResponse.previewSound} disableCache disableFavorite />
+                    <SoundItem sound={createSoundResponse.createSound} disableCache disableFavorite />
                   </React.Fragment>
                 )}
               </FormField>
@@ -277,7 +276,7 @@ const CreateSoundPage = (props) => {
                     setFieldValue('isPreview', true);
                     handleSubmit();
                   }}
-                  disabled={previewSoundLoading}
+                  disabled={createSoundLoading}
                 >
                   <ButtonText>Preview</ButtonText>
                 </Button>
@@ -286,7 +285,7 @@ const CreateSoundPage = (props) => {
                     setFieldValue('isPreview', false);
                     handleSubmit();
                   }}
-                  disabled={previewSoundLoading}
+                  disabled={createSoundLoading}
                 >
                   <ButtonText>Guardar</ButtonText>
                 </Button>
