@@ -106,6 +106,7 @@ const Button = styled.TouchableOpacity`
   background: rgba(255,255,255,0.3);
   align-items: center;
   justify-content: center;
+  opacity: ${props => props.disabled ? 0.5 : 1};
 `;
 
 const ButtonText = styled.Text`
@@ -126,11 +127,17 @@ const PREVIEW_SOUND = gql`
 `;
 
 const CreateSoundPage = (props) => {
-  const [previewSound, { data: previewSoundResponse, loading: previewSoundLoading }] = useMutation(PREVIEW_SOUND);
+  const [previewSound, { data: previewSoundResponse, loading: previewSoundLoading }] = useMutation(PREVIEW_SOUND, {
+    refetchQueries: ['getSounds'],
+  });
 
-  const submit = (values) => {
-    const { url, from, to, name, author } = values;
-    previewSound({
+  const submit = async (values, { resetForm }) => {
+    if (previewSoundLoading) {
+      return;
+    }
+
+    const { url, from, to, name, author, isPreview } = values;
+    await previewSound({
       variables: {
         input: {
           url,
@@ -139,9 +146,16 @@ const CreateSoundPage = (props) => {
           name,
           author,
           deviceId: Constants.deviceId,
+          isPreview,
         }
       }
     })
+
+    resetForm();
+
+    if (!isPreview) {
+      props.navigation.navigate('explorar');
+    }
   }
 
   const validate = (values) => {
@@ -156,7 +170,7 @@ const CreateSoundPage = (props) => {
     if (!values.author) {
       errors.author = 'Requerido';
     }
-    
+
     return errors;
   }
 
@@ -177,12 +191,13 @@ const CreateSoundPage = (props) => {
             from: '00:00:00.00',
             to: '00:00:07.00',
             name: '',
-            author: ''
+            author: '',
+            isPreview: true,
           }}
           onSubmit={submit}
           validate={validate}
         >
-          {({ handleChange, handleSubmit, values, errors, touched }) => (
+          {({ handleChange, setFieldValue, handleSubmit, values, errors, touched }) => (
             <FormContainer>
               <FormField>
                 <FormFieldLabel>Link de YouTube:</FormFieldLabel>
@@ -257,10 +272,22 @@ const CreateSoundPage = (props) => {
                 )}
               </FormField>
               <ButtonContainer>
-                <Button onPress={handleSubmit}>
+                <Button
+                  onPress={() => {
+                    setFieldValue('isPreview', true);
+                    handleSubmit();
+                  }}
+                  disabled={previewSoundLoading}
+                >
                   <ButtonText>Preview</ButtonText>
                 </Button>
-                <Button onPress={handleSubmit}>
+                <Button
+                  onPress={() => {
+                    setFieldValue('isPreview', false);
+                    handleSubmit();
+                  }}
+                  disabled={previewSoundLoading}
+                >
                   <ButtonText>Guardar</ButtonText>
                 </Button>
               </ButtonContainer>
