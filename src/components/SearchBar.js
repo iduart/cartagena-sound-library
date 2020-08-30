@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import debounce from 'lodash/debounce';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
 import globalSearch from '../store/globalSearch';
 
 const Container = styled.View`
@@ -32,9 +33,11 @@ const Input = styled.TextInput.attrs({
 `;
 
 const SearchBar = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const handleChange = debounce((value) => {
+    navigation.navigate('explorar');
     dispatch(globalSearch.actions.setSearch(value));
   }, 250)
 
