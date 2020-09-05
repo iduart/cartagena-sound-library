@@ -76,28 +76,15 @@ const LogoutText = styled.Text`
 const DrawerContent = (props) => {
   const authenticated = false;
 
-  const showCreateSoundAlert = () => {
-    Alert.alert(
-      "Todavia no he terminado esta parte...",
-      "Pero puedes enviarme un email con el sonido que quieres agregar y yo lo agrego enseguida!",
-      [
-        {
-          text: "Mejor no! 😒",
-        },
-        { text: "Enviar correo 👍", onPress: async () =>  await Linking.openURL('mailto:cartagenasoundlibrary@gmail.com?subject=Quiero un sonido') }
-      ],
-    );
-  }
-
   return (
     <Container {...props}>
-      <TouchableOpacity onPress={showCreateSoundAlert}>
+      <TouchableOpacity onPress={() => props.navigation.navigate('CreateSoundPage')}>
         <Button>
           <Icon name="clouduploado" size={30} color="#FFFFFF" />
           <ButtonText>AGREGAR SONIDO</ButtonText>
         </Button>
       </TouchableOpacity>
-      {!authenticated && (
+      {/* {!authenticated && (
         <Menu>
           <MenuItem>
             <MenuItemTouchable onPress={() => alert('comming soon...')}>
@@ -141,7 +128,7 @@ const DrawerContent = (props) => {
             <LogoutText>Salir</LogoutText>
           </Logout>
         </FooterContainer>
-      )}
+      )} */}
     </Container>
   );
 }

@@ -6,6 +6,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import DrawerContent from './components/DrawerContent';
 import client from './apollo';
 import Home from './screens/Home';
+import CreateSoundPage from './screens/CreateSoundPage';
 import store from './store';
 
 const Drawer = createDrawerNavigator();
@@ -24,6 +25,7 @@ export default function App() {
             }}
           >
             <Drawer.Screen name="Home" component={Home} />
+            <Drawer.Screen name="CreateSoundPage" component={CreateSoundPage} />
           </Drawer.Navigator>
         </NavigationContainer>
       </ApolloProvider>

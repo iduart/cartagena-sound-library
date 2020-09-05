@@ -5,7 +5,7 @@ import * as FileSystem from 'expo-file-system';
 export const getSoundFileKey = (soundId) => `${soundId}_sound_url`;
 export const getSoundFileName = (soundId) => `${FileSystem.cacheDirectory}${soundId}.mp3`;
 
-export const useSoundFileUri = (sound) => {
+export const useSoundFileUri = (sound, options) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState();
 
@@ -14,9 +14,14 @@ export const useSoundFileUri = (sound) => {
     const { sound: soundUrl } = sound;
   
     try {
-      // check if file is already in cache
-      const storedFileUri = await AsyncStorage.getItem(getSoundFileKey(sound._id));
-      const cacheFile = storedFileUri ? await FileSystem.getInfoAsync(storedFileUri || '') : null;
+      let storedFileUri;
+      let cacheFile;
+
+      // if cache is not disabled then check if file is already in cache
+      if (!options.disableCache) {
+        storedFileUri = await AsyncStorage.getItem(getSoundFileKey(sound._id));
+        cacheFile = storedFileUri ? await FileSystem.getInfoAsync(storedFileUri || '') : null;
+      }
   
       if (cacheFile && cacheFile.exists && cacheFile.uri) {
         fileUri = cacheFile.uri;
