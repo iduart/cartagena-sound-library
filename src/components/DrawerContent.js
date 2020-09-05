@@ -84,7 +84,7 @@ const DrawerContent = (props) => {
           <ButtonText>AGREGAR SONIDO</ButtonText>
         </Button>
       </TouchableOpacity>
-      {!authenticated && (
+      {/* {!authenticated && (
         <Menu>
           <MenuItem>
             <MenuItemTouchable onPress={() => alert('comming soon...')}>
@@ -128,7 +128,7 @@ const DrawerContent = (props) => {
             <LogoutText>Salir</LogoutText>
           </Logout>
         </FooterContainer>
-      )}
+      )} */}
     </Container>
   );
 }
