@@ -76,6 +76,7 @@ const CreateSoundPage = (props) => {
     refetchQueries: ['getSounds'],
   });
   const [isSaveButtonAcitve, activateSaveButton] = React.useState(false);
+  const [soundPreviewData, setSoundPreviewData] = React.useState();
 
   const submit = async (values, { resetForm }) => {
     if (createSoundLoading) {
@@ -97,10 +98,11 @@ const CreateSoundPage = (props) => {
       }
     })
 
-    if (isPreview){
+    if (isPreview) {
       activateSaveButton(true);
     } else {
       resetForm();
+      setSoundPreviewData(null);
       props.navigation.navigate('explorar');
       activateSaveButton(false);
     }
@@ -140,6 +142,10 @@ const CreateSoundPage = (props) => {
 
     return errors;
   }
+
+  React.useEffect(() => {
+    setSoundPreviewData(createSoundResponse);
+  }, [createSoundResponse])
 
   return (
     <Container>
@@ -224,10 +230,10 @@ const CreateSoundPage = (props) => {
                 </FormField>
                 <FormField>
                   {createSoundLoading && (<ActivityIndicator size="large" color="#FFFFFF" />)}
-                  {createSoundResponse && createSoundResponse.createSound && (
+                  {soundPreviewData && soundPreviewData.createSound && (
                     <React.Fragment>
                       <FormFieldLabel>Preview</FormFieldLabel>
-                      <SoundItem sound={createSoundResponse.createSound} disableCache disableFavorite />
+                      <SoundItem sound={soundPreviewData.createSound} disableCache disableFavorite />
                     </React.Fragment>
                   )}
                 </FormField>
