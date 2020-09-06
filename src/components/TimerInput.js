@@ -47,7 +47,7 @@ const TimerInput = (props) => {
   }
 
   const validate = (value) => {
-    if (value && value >= 0) {
+    if (value >= 0) {
       return true;
     }
   }
@@ -58,10 +58,10 @@ const TimerInput = (props) => {
     }
   }
 
-  const handleChange = (type) => (value) => {
+  const handleChange = (field) => (value) => {
     let [hh, mm, ss, SS] = [hours, minutes, seconds, fraction];
 
-    switch (type) {
+    switch (field) {
       case 'hours': {
         hh = value;
         setHours(value);
@@ -91,17 +91,53 @@ const TimerInput = (props) => {
     props.onChange(`${hh}:${mm}:${ss}.${SS}`);
   }
 
+  const handleEndEditing = (field) => (event) => {
+    const value = event.nativeEvent.text;
+    if (value) {
+      return;
+    }
+
+    let [hh, mm, ss, SS] = [hours, minutes, seconds, fraction];
+    const defaultValue = '00';
+
+    switch (field) {
+      case 'hours': {
+        hh = defaultValue;
+        setHours(defaultValue);
+        break;
+      }
+      case 'minutes': {
+        mm = defaultValue;
+        setMinutes(defaultValue);
+        break;
+      }
+      case 'seconds': {
+        ss = defaultValue;
+        setSeconds(defaultValue);
+        break;
+      }
+      case 'fraction': {
+        SS = defaultValue;
+        setFraction(defaultValue);
+        break;
+      }
+    }
+
+    props.onChange(`${hh}:${mm}:${ss}.${SS}`);
+  }
+
   React.useEffect(() => {
     if (props.value) {
       getDetailedValues();
     }
-  }, []);
+  }, [props.value]);
 
   return (
     <Container>
       <FieldContainer>
         <Input
           onChangeText={handleChange('hours')}
+          onEndEditing={handleEndEditing('hours')}
           value={hours}
           maxLength={2}
           keyboardType={'numeric'}
@@ -112,6 +148,7 @@ const TimerInput = (props) => {
       <FieldContainer>
         <Input
           onChangeText={handleChange('minutes')}
+          onEndEditing={handleEndEditing('minutes')}
           value={minutes}
           maxLength={2}
           keyboardType={'numeric'}
@@ -122,6 +159,7 @@ const TimerInput = (props) => {
       <FieldContainer>
         <Input
           onChangeText={handleChange('seconds')}
+          onEndEditing={handleEndEditing('seconds')}
           value={seconds}
           maxLength={2}
           keyboardType={'numeric'}
@@ -132,6 +170,7 @@ const TimerInput = (props) => {
       <FieldContainer>
         <Input
           onChangeText={handleChange('fraction')}
+          onEndEditing={handleEndEditing('fraction')}
           value={fraction}
           maxLength={3}
           keyboardType={'numeric'}

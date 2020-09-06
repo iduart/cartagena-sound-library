@@ -29,7 +29,6 @@ const Container = styled(LinearGradient).attrs({
   start: [0, 0],
   end: [1, 1],
 })`
-  padding-horizontal: 20px;
   flex: 1;
 `;
 
@@ -37,6 +36,7 @@ const Title = styled.View`
   flex-direction: row;
   margin-top: 30px;
   justify-content: space-between;
+  padding-horizontal: 20px;
 `;
 
 const TitleText = styled.Text`
@@ -47,7 +47,7 @@ const TitleText = styled.Text`
 `;
 
 const FormContainer = styled.View`
-  padding-horizontal: 10px;
+  padding-horizontal: 30px;
   margin-top: 50px;
 `;
 
@@ -75,6 +75,7 @@ const CreateSoundPage = (props) => {
   const [createSound, { data: createSoundResponse, loading: createSoundLoading }] = useMutation(CREATE_SOUND, {
     refetchQueries: ['getSounds'],
   });
+  const [isSaveButtonAcitve, activateSaveButton] = React.useState(false);
 
   const submit = async (values, { resetForm }) => {
     if (createSoundLoading) {
@@ -96,20 +97,27 @@ const CreateSoundPage = (props) => {
       }
     })
 
-    if (!isPreview) {
+    if (isPreview){
+      activateSaveButton(true);
+    } else {
       resetForm();
       props.navigation.navigate('explorar');
+      activateSaveButton(false);
     }
   }
 
   const validate = (values) => {
     const errors = {};
     const REQUIRED = 'Requerido';
+    const youtubeUrlRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/gm;
 
     const duration = getDuration(values.from, values.to);
 
     if (!values.url) {
       errors.url = REQUIRED;
+    }
+    if (!youtubeUrlRegex.test(values.url)) {
+      errors.url = 'Debe ser una link de youtube';
     }
     if (!values.name) {
       errors.name = REQUIRED;
@@ -161,7 +169,6 @@ const CreateSoundPage = (props) => {
                 <FormField>
                   <FormFieldLabel>Link de YouTube:</FormFieldLabel>
                   <TextInput
-                    placeholder="Ej. https://www.youtube.com/watch?v=B2jvVuNaQ5g"
                     onChangeText={handleChange('url')}
                     value={values.url}
                   />
@@ -172,7 +179,10 @@ const CreateSoundPage = (props) => {
                 <FormField>
                   <FormFieldLabel>Desde:</FormFieldLabel>
                   <TimerInput
-                    onChange={value => setFieldValue('from', value)}
+                    onChange={value => {
+                      setFieldValue('from', value);
+                      activateSaveButton(false);
+                    }}
                     value={values.from}
                   />
                   {errors.from && touched.from ? (
@@ -182,7 +192,10 @@ const CreateSoundPage = (props) => {
                 <FormField>
                   <FormFieldLabel>Hasta:</FormFieldLabel>
                   <TimerInput
-                    onChange={value => setFieldValue('to', value)}
+                    onChange={value => {
+                      setFieldValue('to', value);
+                      activateSaveButton(false);
+                    }}
                     value={values.to}
                   />
                   {errors.to && touched.to ? (
@@ -192,7 +205,6 @@ const CreateSoundPage = (props) => {
                 <FormField>
                   <FormFieldLabel>Nombre del Audio:</FormFieldLabel>
                   <TextInput
-                    placeholder="Ej. Que elegancia la de francia"
                     onChangeText={handleChange('name')}
                     value={values.name}
                   />
@@ -203,7 +215,6 @@ const CreateSoundPage = (props) => {
                 <FormField>
                   <FormFieldLabel>Autor:</FormFieldLabel>
                   <TextInput
-                    placeholder="Ej. Moe - Los Simpsons"
                     onChangeText={handleChange('author')}
                     value={values.author}
                   />
@@ -235,7 +246,7 @@ const CreateSoundPage = (props) => {
                       setFieldValue('isPreview', false);
                       handleSubmit();
                     }}
-                    disabled={createSoundLoading}
+                    disabled={createSoundLoading || !isSaveButtonAcitve}
                   >
                     <ButtonText>Guardar</ButtonText>
                   </Button>
