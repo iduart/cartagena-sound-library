@@ -138,7 +138,7 @@ const SoundItem = ({ sound = {}, ...props }) => {
   return (
     <Container>
       <SoundItemPictureContainer>
-        <SoundItemPicture source={{ uri: `${thumbnail}?v=${Math.floor(Date.now() / 1000)}` }}>
+        <SoundItemPicture source={{ uri: props.disableCache ?  `${thumbnail}?v=${Math.floor(Date.now() / 1000)}` : thumbnail }}>
           {soundUriLoading && (
             <ActivityIndicator size="large" color="#FFFFFF" />
           )}
