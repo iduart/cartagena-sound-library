@@ -26,7 +26,7 @@
     },
     "android": {
       "package": "com.iduart.cartagenasoundlibrary",
-      "versionCode": 2,
+      "versionCode": 3,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-1100445203218854~3901609694"
       }
