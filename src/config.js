@@ -16,7 +16,7 @@ let config = {
 };
 
 if (ENV === 'production') {
-  config.API_URL = 'http://cartagenasoundlibrary-env.eba-pt8upu9e.us-east-2.elasticbeanstalk.com/';
+  config.API_URL = 'http://cartagenasoundlibrary-env.eba-a3j4mekk.us-east-2.elasticbeanstalk.com/';
   config.ADD_UNIT_ID = adUnitId;
 }
 
