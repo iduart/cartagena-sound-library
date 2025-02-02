@@ -1,38 +1,41 @@
 {
   "expo": {
-    "name": "Cartagena Sound Library",
-    "description": "Cartagena sound library es una biblioteca de sonidos que puedes utilizar como reacciones en tus conversaciones. Tiene frases y expresiones de personajes famosos de Colombia y el mundo que puedes enviarle a tus amigos para darle un toque de humor a tu chat.",
+    "name": "cartagena-sound-library",
     "slug": "cartagena-sound-library",
-    "version": "2.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "backgroundColor": "#000000"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "assets/*"
-    ],
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "ios": {
-      "bundleIdentifier": "com.iduart.cartagenasoundlibrary",
-      "buildNumber": "1.0.0",
-      "supportsTablet": true,
-      "config": {
-        "googleMobileAdsAppId": "ca-app-pub-1100445203218854~2338499599"
-      }
+      "supportsTablet": true
     },
     "android": {
-      "package": "com.iduart.cartagenasoundlibrary",
-      "versionCode": 3,
-      "config": {
-        "googleMobileAdsAppId": "ca-app-pub-1100445203218854~3901609694"
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
     }
   }
 }
