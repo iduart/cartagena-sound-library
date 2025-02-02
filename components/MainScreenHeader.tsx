@@ -10,14 +10,14 @@ const HamburgerIconContainer = styled.TouchableOpacity`
   margin-left: 10px;
   margin-top: 10px;
   width: 38px;
-  height: 26px;
+  height: 50px;
   z-index: 1;
+  position: absolute;
 `;
 
 const StyledLogo = styled(Logo)`
   position: relative;
-  margin-left: -10px;
-  margin-top: -15px;
+  margin-top: 30px;
   width: 50px;
   z-index: 0;
 `;
@@ -36,7 +36,7 @@ const MainScreenHeader = () => {
   return (
     <View>
       <CloudsBackground />
-      <HamburgerIconContainer onPress={() => {}}>
+      <HamburgerIconContainer onPress={() => navigation.toggleDrawer()}>
         <HamburguerIcon />
       </HamburgerIconContainer>
       <StyledLogo />
