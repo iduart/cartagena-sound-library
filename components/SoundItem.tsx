@@ -9,7 +9,7 @@ import { Audio } from "expo-av";
 import * as Sharing from "expo-sharing";
 import styled from "styled-components";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import Constants from "expo-constants";
 import { useSoundFileUri } from "../utils/getSoundFile";
 

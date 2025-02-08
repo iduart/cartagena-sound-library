@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider } from "@apollo/client";
 import DrawerContent from "../components/DrawerContent";
 import client from "../apollo";
 import Home from "../app/index";

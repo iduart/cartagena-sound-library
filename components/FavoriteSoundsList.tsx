@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { Text, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import Constants from "expo-constants";
 import SoundList from "./SoundList";
 
@@ -46,72 +46,76 @@ const GET_FAVORITES_SOUNDS = gql`
 `;
 
 const FavoriteSoundList = ({ navigation }) => {
-  //   const [hasMoreResults, setHasMoreResults] = React.useState(true);
-  //   const {
-  //     loading,
-  //     error,
-  //     data = {},
-  //     fetchMore,
-  //   } = useQuery(GET_FAVORITES_SOUNDS, {
-  //     variables: {
-  //       deviceId: Constants.deviceId,
-  //       offset: 0,
-  //     },
-  //     notifyOnNetworkStatusChange: true,
-  //   });
+  const [hasMoreResults, setHasMoreResults] = React.useState(true);
+  const {
+    loading,
+    error,
+    data = {},
+    fetchMore,
+  } = useQuery(GET_FAVORITES_SOUNDS, {
+    variables: {
+      deviceId: Constants.deviceId,
+      offset: 0,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
 
-  //   const handleFetchMore = React.useCallback(() => {
-  //     if (loading) return;
+  const handleFetchMore = React.useCallback(() => {
+    if (loading) return;
 
-  //     fetchMore({
-  //       variables: {
-  //         offset: data.deviceFavoritesSounds.length,
-  //       },
-  //       updateQuery: (prev, { fetchMoreResult }) => {
-  //         if (!fetchMoreResult) return prev;
+    fetchMore({
+      variables: {
+        offset: data.deviceFavoritesSounds.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
 
-  //         if (fetchMoreResult && !fetchMoreResult.deviceFavoritesSounds.length) {
-  //           setHasMoreResults(false);
-  //         }
+        if (fetchMoreResult && !fetchMoreResult.deviceFavoritesSounds.length) {
+          setHasMoreResults(false);
+        }
 
-  //         return Object.assign({}, prev, {
-  //           deviceFavoritesSounds: [
-  //             ...prev.deviceFavoritesSounds,
-  //             ...fetchMoreResult.deviceFavoritesSounds,
-  //           ],
-  //         });
-  //       },
-  //     });
-  //   }, [data.deviceFavoritesSounds, loading]);
+        return Object.assign({}, prev, {
+          deviceFavoritesSounds: [
+            ...prev.deviceFavoritesSounds,
+            ...fetchMoreResult.deviceFavoritesSounds,
+          ],
+        });
+      },
+    });
+  }, [data.deviceFavoritesSounds, loading]);
 
-  //   if (error) return <Text>Error {JSON.stringify(error)}</Text>;
+  if (error)
+    return (
+      <Text>
+        {Constants.deviceId}Error {JSON.stringify(error)}
+      </Text>
+    );
 
-  //   if (
-  //     !loading &&
-  //     (!data.deviceFavoritesSounds || !data.deviceFavoritesSounds.length)
-  //   ) {
-  //     return (
-  //       <EmptyState>
-  //         <EmptyStateText>Aún no has agregado favoritos</EmptyStateText>
-  //         <TouchableOpacity onPress={() => navigation.navigate("explorar")}>
-  //           <EmptyStateLink>Explorar sonidos</EmptyStateLink>
-  //         </TouchableOpacity>
-  //         <EmptyStateIcon>
-  //           <Icon name="heart" color="#FFFFFF" size={80} />
-  //         </EmptyStateIcon>
-  //       </EmptyState>
-  //     );
-  //   }
+  if (
+    !loading &&
+    (!data.deviceFavoritesSounds || !data.deviceFavoritesSounds.length)
+  ) {
+    return (
+      <EmptyState>
+        <EmptyStateText>Aún no has agregado favoritos</EmptyStateText>
+        <TouchableOpacity onPress={() => navigation.navigate("Explorar")}>
+          <EmptyStateLink>Explorar sonidos</EmptyStateLink>
+        </TouchableOpacity>
+        <EmptyStateIcon>
+          <Icon name="heart" color="#FFFFFF" size={80} />
+        </EmptyStateIcon>
+      </EmptyState>
+    );
+  }
 
-  //   return (
-  //     <SoundList
-  //       sounds={data.deviceFavoritesSounds}
-  //       onFetchMore={handleFetchMore}
-  //       hasMoreResults={hasMoreResults}
-  //       loading={loading}
-  //     />
-  //   );
-  return <Text>Iduart</Text>;
+  return (
+    <SoundList
+      sounds={data.deviceFavoritesSounds}
+      onFetchMore={handleFetchMore}
+      hasMoreResults={hasMoreResults}
+      loading={loading}
+    />
+  );
 };
 
 export default FavoriteSoundList;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import Constants from "expo-constants";
 import SoundItem from "./SoundItem";
 

@@ -1,15 +1,19 @@
-import { HttpLink } from "apollo-link-http";
-import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 import config from "./config";
 
-const link = new HttpLink({ uri: config.API_URL });
-// create an inmemory cache instance for caching graphql data
+// Create an HTTP link that connects to the server.
+const link = new HttpLink({
+  uri: config.API_URL,
+});
+
+// Create an in-memory cache instance for caching GraphQL data.
 const cache = new InMemoryCache();
-// instantiate apollo client with apollo link instance and cache instance
+
+// Instantiate Apollo Client with the link and cache instance.
 const client = new ApolloClient({
   link,
   cache,
+  connectToDevTools: true, // This is helpful for debugging in development.
 });
 
 export default client;

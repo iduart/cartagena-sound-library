@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/AntDesign";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import Constants from "expo-constants";
 import { Formik } from "formik";
 import SoundItem from "../components/SoundItem";
@@ -106,7 +106,7 @@ const CreateSoundPage = (props) => {
     } else {
       resetForm();
       setSoundPreviewData(null);
-      props.navigation.navigate("explorar");
+      props.navigation.navigate("Explorar");
       activateSaveButton(false);
     }
   };

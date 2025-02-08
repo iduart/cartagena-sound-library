@@ -37,7 +37,7 @@ const SearchBar = () => {
   const dispatch = useDispatch();
 
   const handleChange = debounce((value) => {
-    navigation.navigate("explorar");
+    navigation.navigate("Explorar");
     dispatch(globalSearch.actions.setSearch(value));
   }, 250);
 
