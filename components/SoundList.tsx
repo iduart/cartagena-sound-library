@@ -23,12 +23,13 @@ const SoundList = ({
   sounds = [],
   onFetchMore = () => {},
   hasMoreResults,
+  deviceId,
   loading,
 }) => {
   const { data: favoritesResults = { deviceFavoritesSoundsIds: [] } } =
     useQuery(GET_FAVORITES_SOUNDS_IDS, {
       variables: {
-        deviceId: Constants.deviceId,
+        deviceId,
       },
     });
 
@@ -42,6 +43,7 @@ const SoundList = ({
         <SoundItem
           key={item._id}
           sound={item}
+          deviceId={deviceId}
           isFavorite={isFavorite(item._id)}
         />
       )}

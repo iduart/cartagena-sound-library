@@ -74,7 +74,7 @@ const SoundItem = ({ sound = {}, ...props }) => {
   const [isFavorite, setIsFavorite] = React.useState(props.isFavorite);
   const [soundObject, setSoundObject] = React.useState();
   const [toggleFavorite] = useMutation(TOGGLE_FAVORITE, {
-    variables: { deviceId: Constants.deviceId, soundId: sound._id },
+    variables: { deviceId: props.deviceId, soundId: sound._id },
     refetchQueries: ["deviceFavoritesSoundsIds", "deviceFavoriteSounds"],
   });
   const { thumbnail, name, author } = sound;

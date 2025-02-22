@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import Constants from "expo-constants";
 import SoundList from "./SoundList";
+import { useDeviceId } from "../utils/useDeviceId";
 
 const EmptyState = styled.View`
   margin-top: 30px;
@@ -46,6 +47,7 @@ const GET_FAVORITES_SOUNDS = gql`
 `;
 
 const FavoriteSoundList = ({ navigation }) => {
+  const deviceId = useDeviceId();
   const [hasMoreResults, setHasMoreResults] = React.useState(true);
   const {
     loading,
@@ -54,7 +56,7 @@ const FavoriteSoundList = ({ navigation }) => {
     fetchMore,
   } = useQuery(GET_FAVORITES_SOUNDS, {
     variables: {
-      deviceId: Constants.deviceId,
+      deviceId,
       offset: 0,
     },
     notifyOnNetworkStatusChange: true,
@@ -84,12 +86,7 @@ const FavoriteSoundList = ({ navigation }) => {
     });
   }, [data.deviceFavoritesSounds, loading]);
 
-  if (error)
-    return (
-      <Text>
-        {Constants.deviceId}Error {JSON.stringify(error)}
-      </Text>
-    );
+  if (error) return <Text>Error {JSON.stringify(error)}</Text>;
 
   if (
     !loading &&
@@ -113,6 +110,7 @@ const FavoriteSoundList = ({ navigation }) => {
       sounds={data.deviceFavoritesSounds}
       onFetchMore={handleFetchMore}
       hasMoreResults={hasMoreResults}
+      deviceId={deviceId}
       loading={loading}
     />
   );

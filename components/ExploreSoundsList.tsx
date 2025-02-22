@@ -5,6 +5,7 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import SoundList from "./SoundList";
 import { globalSearchSelectors } from "../store/globalSearch";
+import { useDeviceId } from "../utils/useDeviceId";
 
 const GET_SOUNDS = gql`
   query getSounds($filters: filtersInput, $offset: Int!) {
@@ -20,6 +21,7 @@ const GET_SOUNDS = gql`
 `;
 
 const ExploreSoundList = () => {
+  const deviceId = useDeviceId();
   const searchText = useSelector(globalSearchSelectors.getSearchText);
   const [hasMoreResults, setHasMoreResults] = React.useState(true);
   const {
@@ -63,6 +65,7 @@ const ExploreSoundList = () => {
   return (
     <SoundList
       sounds={data.sounds}
+      deviceId={deviceId}
       onFetchMore={handleFetchMore}
       hasMoreResults={hasMoreResults}
       loading={loading}

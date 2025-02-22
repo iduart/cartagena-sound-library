@@ -1,12 +1,17 @@
 import React from "react";
-import { ActivityIndicator, TouchableOpacity, ScrollView } from "react-native";
+import {
+  ActivityIndicator,
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+} from "react-native";
 import styled from "styled-components/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/AntDesign";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
-import Constants from "expo-constants";
+import * as Application from "expo-application";
 import { Formik } from "formik";
 import SoundItem from "../components/SoundItem";
 import getDuration from "../utils/getDuration";
@@ -19,6 +24,7 @@ import {
   ButtonText,
 } from "../components/Forms";
 import TimerInput from "../components/TimerInput";
+import { useDeviceId } from "../utils/useDeviceId";
 import { useNavigation } from "@react-navigation/native";
 
 const SafeArea = styled(SafeAreaView)`
@@ -74,6 +80,7 @@ const CREATE_SOUND = gql`
 
 const CreateSoundPage = (props) => {
   const navigation = useNavigation();
+  const deviceId = useDeviceId();
   const [
     createSound,
     {
@@ -84,7 +91,7 @@ const CreateSoundPage = (props) => {
   ] = useMutation(CREATE_SOUND, {
     refetchQueries: ["getSounds"],
   });
-  const [isSaveButtonAcitve, activateSaveButton] = React.useState(false);
+  const [isSaveButtonActive, activateSaveButton] = React.useState(false);
   const [soundPreviewData, setSoundPreviewData] = React.useState();
 
   const submit = async (values, { resetForm }) => {
@@ -101,8 +108,7 @@ const CreateSoundPage = (props) => {
           to,
           name,
           author,
-          // deviceId: Constants.deviceId,
-          deviceId: "123456",
+          deviceId,
           isPreview,
         },
       },
@@ -115,7 +121,6 @@ const CreateSoundPage = (props) => {
       setSoundPreviewData(null);
       resetForm();
       activateSaveButton(false);
-
       navigation.navigate("Home");
     }
   };
@@ -253,14 +258,14 @@ const CreateSoundPage = (props) => {
                     <ActivityIndicator size="large" color="#FFFFFF" />
                   )}
                   {soundPreviewData && soundPreviewData.createSound && (
-                    <React.Fragment>
+                    <>
                       <FormFieldLabel>Preview</FormFieldLabel>
                       <SoundItem
                         sound={soundPreviewData.createSound}
                         disableCache
                         disableFavorite
                       />
-                    </React.Fragment>
+                    </>
                   )}
                 </FormField>
                 <ButtonContainer>
@@ -278,7 +283,7 @@ const CreateSoundPage = (props) => {
                       setFieldValue("isPreview", false);
                       handleSubmit();
                     }}
-                    disabled={createSoundLoading || !isSaveButtonAcitve}
+                    disabled={createSoundLoading || !isSaveButtonActive}
                   >
                     <ButtonText>Guardar</ButtonText>
                   </Button>
