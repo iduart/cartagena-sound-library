@@ -9,7 +9,7 @@ import { useMutation } from "@apollo/client";
 import Constants from "expo-constants";
 import { Formik } from "formik";
 import SoundItem from "../components/SoundItem";
-import getDuration from "../utils/getSoundFile";
+import getDuration from "../utils/getDuration";
 import {
   TextInput,
   FormField,
@@ -19,6 +19,7 @@ import {
   ButtonText,
 } from "../components/Forms";
 import TimerInput from "../components/TimerInput";
+import { useNavigation } from "@react-navigation/native";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -72,9 +73,14 @@ const CREATE_SOUND = gql`
 `;
 
 const CreateSoundPage = (props) => {
+  const navigation = useNavigation();
   const [
     createSound,
-    { data: createSoundResponse, loading: createSoundLoading },
+    {
+      data: createSoundResponse,
+      loading: createSoundLoading,
+      reset: resetCreateSound,
+    },
   ] = useMutation(CREATE_SOUND, {
     refetchQueries: ["getSounds"],
   });
@@ -95,7 +101,8 @@ const CreateSoundPage = (props) => {
           to,
           name,
           author,
-          deviceId: Constants.deviceId,
+          // deviceId: Constants.deviceId,
+          deviceId: "123456",
           isPreview,
         },
       },
@@ -104,10 +111,12 @@ const CreateSoundPage = (props) => {
     if (isPreview) {
       activateSaveButton(true);
     } else {
-      resetForm();
+      resetCreateSound();
       setSoundPreviewData(null);
-      props.navigation.navigate("Explorar");
+      resetForm();
       activateSaveButton(false);
+
+      navigation.navigate("Home");
     }
   };
 
