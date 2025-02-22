@@ -60,7 +60,8 @@
     "react-native-webview": "13.12.5",
     "react-redux": "^9.2.0",
     "styled-components": "^6.1.14",
-    "expo-application": "~6.0.2"
+    "expo-application": "~6.0.2",
+    "expo-dev-client": "~5.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

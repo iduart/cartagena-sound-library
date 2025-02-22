@@ -11,13 +11,13 @@ if (Platform.OS === "android") {
 
 // Config
 let config = {
-  API_URL: "http://192.168.1.73:8000/",
+  API_URL: "http://ec2-3-130-156-199.us-east-2.compute.amazonaws.com:8000/",
   ADD_UNIT_ID: "ca-app-pub-3940256099942544/6300978111", // Test ID
 };
 
 if (ENV === "production") {
   config.API_URL =
-    "http://cartagenasoundlibrary-env.eba-a3j4mekk.us-east-2.elasticbeanstalk.com/";
+    "http://ec2-3-130-156-199.us-east-2.compute.amazonaws.com:8000/";
   config.ADD_UNIT_ID = adUnitId;
 }
 
