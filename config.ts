@@ -4,21 +4,20 @@ const ENV = __DEV__ ? "development" : "production";
 let adUnitId = "";
 
 if (Platform.OS === "android") {
-  adUnitId = "ca-app-pub-1100445203218854/6687263551";
+  // adUnitId = "ca-app-pub-1100445203218854/6687263551";
 } else if (Platform.OS === "ios") {
-  adUnitId = "ca-app-pub-1100445203218854/7631296672";
+  // adUnitId = "ca-app-pub-1100445203218854/7631296672";
 }
 
 // Config
 let config = {
-  API_URL: "http://ec2-3-130-156-199.us-east-2.compute.amazonaws.com:8000/",
-  ADD_UNIT_ID: "ca-app-pub-3940256099942544/6300978111", // Test ID
+  API_URL: "https://cartagena-sound-library.com/",
+  // ADD_UNIT_ID: "ca-app-pub-3940256099942544/6300978111", // Test ID
 };
 
 if (ENV === "production") {
-  config.API_URL =
-    "http://ec2-3-130-156-199.us-east-2.compute.amazonaws.com:8000/";
-  config.ADD_UNIT_ID = adUnitId;
+  config.API_URL = "https://cartagena-sound-library.com/";
+  // config.ADD_UNIT_ID = adUnitId;
 }
 
 export default config;
